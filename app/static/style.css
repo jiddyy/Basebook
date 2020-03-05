@@ -1,0 +1,16 @@
+* {
+    list-style-type: none;
+}
+
+#like-button, #comment-button, #share-button {
+    border: none;
+    background-color: white;
+}
+
+#status-likes-comments-shares {
+    padding: 10px;
+    margin-left: 3rem;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
