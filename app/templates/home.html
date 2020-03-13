@@ -29,7 +29,7 @@
                             <form action="{% url 'likes' p.id %}" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="next" value="{{ request.path }}">
-                                {{ p.like_set.count }} <button class="btn btn-secondary border-0 p-1"> 👍</button>
+                                {{ p.like_set.count }} <button class="btn border-0 p-1"><i class="far fa-thumbs-up"></i></button>
                             </form>
                         </li>
                         <li id="li-comments"><small id="status-comments" class="card-content"><button id="comment-button"><a href="{% url 'comments' %}">Comment</a></button></small></li>
@@ -38,9 +38,6 @@
                     <small id="p-datetime" class="card-content">Status from {{ p.datetime }}</small>
                 </div>
             </div>
-            <!-- <div class="card" id="p-comment">
-                {{ p.comment }}
-            </div> -->
         </div>
     </div>
     {% endfor %}

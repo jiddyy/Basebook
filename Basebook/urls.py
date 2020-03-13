@@ -24,5 +24,4 @@ urlpatterns = [
     path("profile/", UserProfile.as_view(), name="profile"),
     path("comments/", CommentOnPost.as_view(), name="comments"),
     path("likes/<post_id>", LikePost.as_view(), name="likes"),
-    # path("signup", Signup.as_view(), name='signup'),
 ]

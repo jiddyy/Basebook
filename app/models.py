@@ -16,7 +16,7 @@ class Post(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     post = models.ForeignKey(Post, on_delete=models.PROTECT)
-    comment = models.TextField(max_length=150)
+    content = models.TextField(max_length=150)
     datetime = models.DateTimeField()
 
     class Meta:
