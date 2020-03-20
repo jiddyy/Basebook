@@ -44,6 +44,7 @@ class UserProfile(View):
 
 class CommentOnPost(View):
     def get(self, request):
+        post = Post.objects.all()
         comment_form = CommentForm(request.POST)
         comment = Comment.objects.all()
         return render(
