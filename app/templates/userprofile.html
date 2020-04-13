@@ -1,4 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-{{ user.username }}
+
+<h2>
+    <h1 class="text-center my-5">{{ user.username }}</h1>
+</h2>
+{% for p in user.post.all %}
+    <div class="col mx-auto my-3 col-lg-10  col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-content mb-5">{{ p.content }}</p>
+                <form action="{% url 'likes' p.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    {{ p.like_set.count }} <button class="btn border-0 p-1"><i class="far fa-thumbs-up"></i></button>
+                </form>
+                <small id="p-datetime" class="card-content">Status from {{ p.datetime }}</small>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 {% endblock content %}

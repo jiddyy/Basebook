@@ -39,8 +39,8 @@ class Home(View):
             )
 
 class UserProfile(View):
-    def get(self, request, user_id):
-        return render(request, 'userprofile.html')
+    def get(self, request):
+        return render(request, "userprofile.html")
 
 class CommentOnPost(View):
     def get(self, request):
