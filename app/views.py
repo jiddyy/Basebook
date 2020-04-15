@@ -78,3 +78,7 @@ class LikePost(View):
         post = get_object_or_404(Post, pk=post_id)
         post.like_set.get_or_create(user=request.user)
         return redirect(request.POST.get("next", "home"))
+
+# class UserTest(View):
+#     def get(self, request):
+#         return render(request, "custom-user-test.html")
