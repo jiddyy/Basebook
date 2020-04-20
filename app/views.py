@@ -6,18 +6,24 @@ from django.urls import reverse_lazy
 from app.forms import PostForm, CommentForm
 from app.models import Post, Like, Comment, Share
 from django.utils import timezone
+from django.contrib import messages
 
 # Create your views here.
 
 class Home(View):
     def get(self, request):
-        form = PostForm(request.POST)
         post = Post.objects.all()
+        comment = Comment.objects.all()
         return render(
             request, "home.html", {
-                "form": form, "post": post
+                "post": post, "comment": comment
             }
         )
+
+class CreatePost(View):
+    def get(self, request):
+        form = PostForm()
+        return render(request, "createpost.html", {"form": form})
 
     def post(self, request):
         form = PostForm(request.POST)
@@ -33,30 +39,36 @@ class Home(View):
             
         elif not form.is_valid():
             return render(
-                request, "home.html", {
-                    "form": form, "post": post
+                request, "createpost.html", {
+                    "form": form
                 }
             )
+
+class DeletePost(View):
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+        post.delete()
+        return redirect(request.POST.get("next", "home"))
 
 class UserProfile(View):
     def get(self, request):
         return render(request, "userprofile.html")
 
 class CommentOnPost(View):
-    def get(self, request):
-        post = Post.objects.all()
-        comment_form = CommentForm(request.POST)
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
         comment = Comment.objects.all()
+        comment_form = CommentForm()
         return render(
             request, "comments.html", {
-                "comment_form": comment_form, "post": post, "comment": comment
+                "comment_form": comment_form, "post": post
             }
         )
 
     def post(self, request, post_id):
         post = get_object_or_404(Post, pk=post_id)
-        comment_form = CommentForm(request.POST)
         comment = Comment.objects.all()
+        comment_form = CommentForm()
         if comment_form.is_valid():
             content = comment_form.cleaned_data["content"]
             create_new_comment = Comment.objects.create(
@@ -69,7 +81,7 @@ class CommentOnPost(View):
         elif not comment_form.is_valid():
             return render(
                 request, "comments.html", {
-                    "comment_form": comment_form, "comment": comment
+                    "comment_form": comment_form, "post": post
                 }
             )
 

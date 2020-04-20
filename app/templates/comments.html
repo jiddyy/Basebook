@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
-<div class="column">
+<form action="{% url 'comments' %}" method="POST">
+    {% csrf_token %}
+    <div class="col mx-auto my-3 col-lg-6 col-sm-6">
+        <div id="form">
+            {{ comment_form|crispy }}
+            <button id="post-button" class="btn btn-primary" class="submit-btn">Post</button>
+        </div>
+    </div>
+</form>
+{% comment %} <div class="column">
     {% for p in post %}
     <div id="status-container" class="col mx-auto my-3 col-lg-6  col-sm-6">
         <div class="card">
@@ -31,7 +41,7 @@
                 {% csrf_token %}
                 <div class="col mx-auto my-3 col-lg-6 col-sm-6">
                     <div id="form">
-                        {{ comment_form }}
+                        {{ comment_form|crispy }}
                         <button id="post-button" class="btn btn-primary" class="submit-btn">Post</button>
                     </div>
                 </div>
@@ -67,5 +77,5 @@
         </div>
     </div>
     {% endfor %}
-</div>
+</div> {% endcomment %}
 {% endblock content %}

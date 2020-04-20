@@ -15,14 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Home, UserProfile, LikePost, CommentOnPost
+from app.views import Home, CreatePost, DeletePost, UserProfile, LikePost, CommentOnPost
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", Home.as_view(), name="home"),
+    path("post/", CreatePost.as_view(), name="post"),
+    path("delete/<post_id>", DeletePost.as_view(), name="delete"),
     path("profile/", UserProfile.as_view(), name="profile"),
-    path("comments/", CommentOnPost.as_view(), name="comments"),
+    path("comments/<post_id>", CommentOnPost.as_view(), name="comments"),
     path("likes/<post_id>", LikePost.as_view(), name="likes"),
     # path("user-test", UserTest.as_view(), name="usertest"),
 ]
