@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<h2 class="text-center">Your Feed</h2>
 <div class="column">
     {% for p in post %}
     <div id="status-container" class="col mx-auto my-3 col-lg-6  col-sm-6">
         <div class="card">
             <div class="card-body">
                 <h4 id="p-user" class="card-title">
-                    <a href="{% url 'profile' %}" alt="">
-                        {{ p.user }}
-                    </a>
+                    {{ p.user }}
                 </h4>
                 <p id="p-content" class="card-content">{{ p.content }}</p>
                 <div id="bottom-of-post">
@@ -20,13 +19,13 @@
                                 {{ p.like_set.count }} <button class="btn border-0 p-1"><i class="far fa-thumbs-up"></i></button>
                             </form>
                         </li>
-                        {% comment %} <li id="li-comments"><small id="status-comments" class="card-content"><button id="comment-button"><a href="{% url 'comments' %}">Comment</a></button></small></li> {% endcomment %}
-                        <li>
+                        <li id="li-comments"><small id="status-comments" class="card-content"><button id="comment-button"><a href="{% url 'comments' p.id %}">Comment</a></button></small></li>
+                        {% comment %} <li>
                             <form action="{% url 'comments' p.id %}" method="POST">
                                 {% csrf_token %}
                                 <button id="comment-button">Comment</button>
                             </form>
-                        </li>
+                        </li> {% endcomment %}
                         <li id="li-shares"><small id="status-shares" class="card-content"><button id="share-button">Share</button></small></li>
                     </ol>
                     <small id="p-datetime" class="card-content">Status from {{ p.datetime }}</small>
