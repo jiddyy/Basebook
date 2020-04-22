@@ -52,6 +52,12 @@ class DeletePost(LoginRequiredMixin, View):
         post.delete()
         return redirect(request.POST.get("next", "home"))
 
+class DeleteComment(LoginRequiredMixin, View):
+    def post(self, request, comment_id):
+        comment = get_object_or_404(Comment, pk=comment_id)
+        comment.delete()
+        return redirect(request.POST.get("next", "home"))
+
 class UserProfile(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "userprofile.html")
@@ -70,10 +76,11 @@ class CommentOnPost(LoginRequiredMixin, View):
     def post(self, request, post_id):
         post = get_object_or_404(Post, pk=post_id)
         comment = Comment.objects.all()
-        comment_form = CommentForm()
+        comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             content = comment_form.cleaned_data["content"]
             create_new_comment = Comment.objects.create(
+                post=post,
                 content=content,
                 datetime=timezone.now(),
                 user=request.user,
@@ -93,6 +100,12 @@ class LikePost(LoginRequiredMixin, View):
         post.like_set.get_or_create(user=request.user)
         return redirect(request.POST.get("next", "home"))
 
+# class LikeComment(LoginRequiredMixin, View):
+#     def post(self, request, comment_id):
+#         comment = get_object_or_404(Comment, pk=comment_id)
+#         comment.like_set.get_or_create(user=request.user)
+#         return redirect(request.POST.get("next", "home"))
+
 class SignUpView(View):
     def get(self, request):
         if request.user.is_authenticated:
@@ -107,8 +120,3 @@ class SignUpView(View):
             return redirect('home')
         else:
             return render(request, 'signup.html', {'signup_form': form})
-            
-
-# class UserTest(View):
-#     def get(self, request):
-#         return render(request, "custom-user-test.html")

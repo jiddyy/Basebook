@@ -14,3 +14,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
+
+#signup-btn {
+    position: absolute;
+    right: 0;
+}

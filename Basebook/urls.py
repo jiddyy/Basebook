@@ -15,17 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from app.views import Home, CreatePost, DeletePost, UserProfile, LikePost, CommentOnPost, SignUpView
+from app.views import Home, CreatePost, DeletePost, DeleteComment, UserProfile, LikePost, CommentOnPost, SignUpView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", Home.as_view(), name="home"),
     path("signup/", SignUpView.as_view(), name="signup"),
-    path('accounts/', include('app.views')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path("post/", CreatePost.as_view(), name="post"),
     path("delete/<post_id>", DeletePost.as_view(), name="delete"),
+    path("delete-comment/<comment_id>", DeleteComment.as_view(), name="delete-comment"),
     path("profile/", UserProfile.as_view(), name="profile"),
     path("comments/<post_id>", CommentOnPost.as_view(), name="comments"),
     path("likes/<post_id>", LikePost.as_view(), name="likes"),
-    # path("user-test", UserTest.as_view(), name="usertest"),
+    # path("comments-likes/<comment_id>", LikeComment.as_view(), name="comment-likes"),
 ]

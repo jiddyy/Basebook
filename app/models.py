@@ -26,7 +26,6 @@ class Post(models.Model):
     )
     content = models.TextField(max_length=150)
     datetime = models.DateTimeField()
-    # comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-datetime', ]
@@ -37,8 +36,8 @@ class Comment(models.Model):
     content = models.TextField(max_length=150)
     datetime = models.DateTimeField()
 
-    # class Meta:
-    #     ordering = ['-datetime', ]
+    class Meta:
+        ordering = ['-datetime', ]
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -47,6 +46,14 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ('user', 'post',)
+
+# class CommentLike(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+#     created = models.DateTimeField(auto_now_add=True)
+
+#     class Meta:
+#         unique_together = ('user', 'comment',)
 
 class Share(models.Model):
     pass

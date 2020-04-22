@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ user.username }}
+<form action="{% url 'logout' %}" method="POST">
+    {% csrf_token %}
+    <button class="btn btn-danger mr-0"><small id="p-delete" class="card-content">Logout</small></button>
+</form>
 {% endblock content %}

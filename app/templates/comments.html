@@ -2,8 +2,30 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<p>{{ post.content }}</p>
-{% comment %} likes, share, etc {% endcomment %}
+<div id="status-container" class="col mx-auto my-3 col-lg-6  col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 id="p-user" class="card-title">
+                    {{ post.user }}
+                </h4>
+                <p id="p-content" class="card-content">{{ post.content }}</p>
+                <div id="bottom-of-post">
+                    <ol id="status-likes-comments-shares">
+                        <li id="li-likes">
+                            <form action="{% url 'likes' post.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                {{ post.like_set.count }} <button class="btn border-0 p-1"><i class="far fa-thumbs-up"></i></button>
+                            </form>
+                        </li>
+                        <li id="li-comments"><small id="status-comments" class="card-content"><button id="comment-button"><a href="{% url 'comments' post.id %}">Comment</a></button></small></li>
+                        <li id="li-shares"><small id="status-shares" class="card-content"><button id="share-button">Share</button></small></li>
+                    </ol>
+                    <small id="p-datetime" class="card-content">Status from {{ post.datetime }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <form action="{% url 'comments' post.id %}" method="POST">
     {% csrf_token %}
@@ -14,10 +36,6 @@
         </div>
     </div>
 </form>
-
-{% for comment in post.comment_set.all %}
-    <p>{{ comment }}</p>
-{% endfor %}
 
 {% comment %} <div class="column">
     {% for p in post %}
